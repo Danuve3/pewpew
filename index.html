@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+    <title>PEW PEW · el matamarcianos que suena a ti</title>
+    <meta name="description" content="Un matamarcianos absurdo en el que todos los efectos de sonido los pones tú con tu voz." />
+    <meta name="theme-color" content="#fbfaf3" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="PEW PEW" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Permanent+Marker&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="src/style.css" />
+  </head>
+  <body>
+    <canvas id="game" aria-label="Zona de juego"></canvas>
+    <button id="btn-pause" class="pausebtn" aria-label="Pausa" hidden>II</button>
+
+    <main id="ui">
+      <!-- PORTADA -->
+      <section id="s-title" class="screen active">
+        <div class="sheet center">
+          <h1 class="logo">PEW<br />PEW</h1>
+          <p class="tag">El matamarcianos que <span class="hl">suena a ti</span></p>
+          <canvas class="cast" id="title-cast"></canvas>
+          <div class="stack">
+            <button class="btn big" id="b-play">¡A jugar!</button>
+            <button class="btn" id="b-studio">Estudio de grabación</button>
+            <button class="btn ghost" id="b-how">¿Cómo se juega?</button>
+          </div>
+          <p class="best" id="best"></p>
+        </div>
+      </section>
+
+      <!-- CÓMO SE JUEGA -->
+      <section id="s-how" class="screen">
+        <div class="sheet">
+          <h2>¿Cómo se juega?</h2>
+          <ol class="howto">
+            <li><b>Graba tus sonidos.</b> Disparos, explosiones, muertes… todo con tu voz. Puedes grabar hasta 3 tomas de cada uno y el juego elige una al azar.</li>
+            <li><b>Elige personaje.</b> Un gato con láser en los ojos, una tostadora, una vaca abducida o un pingüino contable.</li>
+            <li><b>Muévete</b> arrastrando el dedo en cualquier parte de la pantalla (o con las flechas / WASD). Se dispara solo.</li>
+            <li><b>Cada partida tiene reglas absurdas</b> distintas: viento, hipo, sombreros, modo espejo…</li>
+            <li><b>No dispares a los pollitos.</b> Salen de los huevos. Son inocentes.</li>
+            <li>Cada 4 oleadas viene un <b>jefe</b>. Que no te pille el Lunes.</li>
+          </ol>
+          <h3>Power-ups</h3>
+          <ul class="howto">
+            <li><b>Calcetines:</b> disparas calcetines en abanico.</li>
+            <li><b>Gravedad:</b> la pantalla se da la vuelta. Puntos dobles.</li>
+            <li><b>Comic Sans:</b> los enemigos se avergüenzan y van a cámara lenta.</li>
+            <li><b>Baguette:</b> te conviertes en baguette invencible. A barrazos.</li>
+            <li><b>Croqueta:</b> +1 vida. Receta de la abuela.</li>
+          </ul>
+          <button class="btn" data-go="s-title">Vale, vale</button>
+        </div>
+      </section>
+
+      <!-- ESTUDIO -->
+      <section id="s-studio" class="screen">
+        <div class="sheet">
+          <h2>Estudio de grabación</h2>
+          <p class="intro" id="studio-intro">
+            Mantén pulsado el botón rojo mientras haces el ruido. Suelta y escucha. Los 4 primeros son los importantes.
+          </p>
+          <p class="mic" id="mic-status"></p>
+          <div id="sound-list" class="sounds"></div>
+          <div class="footer">
+            <p class="warn" id="studio-warn"></p>
+            <button class="btn big" id="b-studio-done">¡Listo, a jugar!</button>
+            <button class="btn ghost" id="b-studio-back">Volver</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PERSONAJES -->
+      <section id="s-select" class="screen">
+        <div class="sheet">
+          <h2>Elige a tu criatura</h2>
+          <div id="char-grid" class="chars"></div>
+          <button class="btn ghost" id="b-select-back">Volver</button>
+        </div>
+      </section>
+
+      <!-- REGLAS DE HOY -->
+      <section id="s-rules" class="screen">
+        <div class="sheet center">
+          <h2>Hoy en el universo…</h2>
+          <canvas class="mini" id="rules-char"></canvas>
+          <p class="who" id="rules-who"></p>
+          <ul id="rules-list" class="rules"></ul>
+          <div class="stack">
+            <button class="btn big" id="b-launch">¡Despegar!</button>
+            <button class="btn" id="b-reroll">Otras reglas, gracias</button>
+            <button class="btn ghost" id="b-rules-back">Cambiar personaje</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAUSA -->
+      <section id="s-pause" class="screen overlay">
+        <div class="sheet center small">
+          <h2>Pausa</h2>
+          <p class="tag">Respira. Bebe agua.</p>
+          <div class="stack">
+            <button class="btn big" id="b-resume">Seguir</button>
+            <button class="btn" id="b-mute">Silenciar</button>
+            <button class="btn ghost" id="b-quit">Abandonar</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- FIN -->
+      <section id="s-over" class="screen">
+        <div class="sheet center">
+          <h2 class="rip">R.I.P.</h2>
+          <canvas class="mini" id="over-char"></canvas>
+          <p class="epitaph" id="over-epitaph"></p>
+          <p class="score" id="over-score"></p>
+          <ul id="over-stats" class="stats"></ul>
+          <div class="stack">
+            <button class="btn big" id="b-again">Otra vez</button>
+            <button class="btn" id="b-change">Cambiar personaje</button>
+            <button class="btn" id="b-rerecord">Regrabar voces</button>
+            <button class="btn ghost" id="b-menu">Menú</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

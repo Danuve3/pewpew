@@ -1,0 +1,21 @@
+{
+  "name": "pewpew",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Matamarcianos absurdo en el que todos los efectos de sonido los grabas tú con tu voz.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5",
+    "vite-plugin-pwa": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Danuve3/pewpew.git"
+  },
+  "homepage": "https://danuve3.github.io/pewpew/"
+}
